@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>100 best books</title>
+    
+    <style type="text/css">
+      
+      .book {
+        font-size: 1em; 
+      }
+      .book-title {
+        font-weight: bold;
+      }
+      .book-title:before, .book-title:after {
+        content: '"';
+      }
+      .book-year, .book-language {
+        font-size: 0.7em; 
+        margin: 0 0.2em;
+      }
+      .book-year:before {
+        content: '[';
+      }
+      .book-year:after {
+        content: ']';
+      }
+      .book-language:before {
+        content: '(';
+      }
+      .book-language:after {
+        content: ')';
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    
+    <script src="libs/react.js"></script>
+    <script src="libs/JSXTransformer.js"></script>
+    <script src="libs/fetch.js"></script>
+    
+    <script type="text/jsx">
+      /**
+       * @jsx React.DOM
+       */
+       
+      var Book = React.createClass({
+      
+        render: function() {
+          return <li className='book'>
+            <span className='book-author'>{this.props.data.author}</span>
+            &nbsp;-&nbsp;
+            <span className='book-title'>{this.props.data.title}</span>
+            <span className='book-year'>{this.props.data.year}</span>
+            <span className='book-language'>{this.props.data.language}</span>
+          </li>;
+        }
+      
+      });
+       
+      var ListBooks = React.createClass({
+      
+        getBooks: function(){
+          var books = [];
+          for (var i=0; i < this.props.books.length; i++) {
+            books.push(<Book data={this.props.books[i]} />);
+          }
+          return books;
+        },
+      
+        render: function() {
+        
+          var books = this.getBooks();  
+
+          return <ol>{books}</ol>;
+        }
+      });
+      
+      fetch('Bokklubben World Library.json').then(function(response) {
+        return response.json()
+      }).then(function(json) {
+        React.renderComponent(
+          <ListBooks books={json.books}/>,
+          document.getElementById('container')
+        ); 
+      });
+      
+    </script>
+  </body>
+</html>
