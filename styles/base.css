@@ -1,0 +1,10 @@
+.book {
+  font-size: 1em; 
+}
+.book-title {
+  font-weight: bold;
+}
+.book-year, .book-language {
+  font-size: 0.7em; 
+  margin: 0 0.2em;
+}
